@@ -13,78 +13,91 @@ import utils.SessionUtil;
 
 public class AccountDAO {
 	public static Integer createAccount(Account account) {
-		System.out.print("Create Account");
+		System.out.println("Create Account");
 
-		SessionFactory factory = SessionUtil.getSessionFactory();
-		Session session = factory.openSession();
-		Transaction tx = null;
+		SessionFactory factory = null;
+		Session session = null;
 		Integer result = null;
 
 		try {
+			factory = SessionUtil.getSessionFactory();
+			session = factory.openSession();
+			Transaction tx = null;
+
 			tx = session.beginTransaction();
 			result = (Integer) session.save(account);
 			tx.commit();
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
-			session.close();
+			if (session != null) {
+				session.close();
+			}
 		}
 
 		return result;
 	}
 
 	@SuppressWarnings("deprecation")
-	public static boolean viewAllAccounts() {
+	public static List viewAllAccounts() {
 		System.out.print("View All Accounts");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		boolean result = false;
+		List results = null;
 
 		try {
 			tx = session.beginTransaction();
 			Criteria cr = session.createCriteria(Account.class);
-			List results = cr.list();
-			for (int i = 0; i < results.size(); i++) {
-				Account account = (Account) results.get(i);
-				System.out.print("ID: " + account.getId());
-				System.out.print("	First Name: " + account.getName());
-				System.out.print("  Last Name: " + account.getEmail());
-				System.out.println("  Salary: " + account.getTimezone());
-			}
+			results = cr.list();
+//			for (int i = 0; i < results.size(); i++) {
+//				Account account = (Account) results.get(i);
+//				System.out.print("ID: " + account.getId());
+//				System.out.print("	First Name: " + account.getName());
+//				System.out.print("  Last Name: " + account.getEmail());
+//				System.out.println("  Salary: " + account.getTimezone());
+//			}
 
 			tx.commit();
-			result = true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return result;
+		return results;
 	}
 
-	public static boolean updateAccount(Account account) {
+	public static Account updateAccount(int id, Account account) {
 		System.out.print("Update Account");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		boolean result = false;
+		Account acc = null;
 
 		try {
 			tx = session.beginTransaction();
-			session.update(account);
+			acc = (Account) session.get(Account.class, id);
+			if (account.getName() != null) {
+				acc.setName(account.getName());
+			}
+			if (account.getEmail() != null) {
+				acc.setEmail(account.getEmail());
+			}
+			if (account.getTimezone() != null) {
+				acc.setTimezone(account.getTimezone());
+			}
+			session.update(acc);
 			tx.commit();
-			result = true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return result;
+		return acc;
 
 	}
 

@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="entity.AlertLocation" table="ALERTLOCATION">
+		<meta attribute="class-description">
+			This class contains the account detail.
+		</meta>
+
+		<id name="alertLocationID" type="int" column="alert_location_id">
+			<generator class="native" />
+		</id>
+
+		<property name="city" column="city" type="string" />
+		<property name="country" column="country" type="string" />
+		<many-to-one name="alertProfileID"
+			column="alert_profile_id" class="entity.AlertProfile" not-null="true"
+			cascade="persist" />
+
+	</class>
+</hibernate-mapping>

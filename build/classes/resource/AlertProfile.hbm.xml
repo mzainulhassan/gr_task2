@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="entity.AlertProfile" table="ALERTPROFILE">
+		<meta attribute="class-description">
+			This class contains the account detail.
+		</meta>
+
+		<id name="alertProfileID" type="int" column="alert_profile_id">
+			<generator class="native" />
+		</id>
+
+		<property name="name" column="name" type="string" />
+		<many-to-one name="accountID" column="account_id"
+			class="entity.Account" not-null="true" unique="true" />
+
+	</class>
+</hibernate-mapping>

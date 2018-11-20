@@ -29,6 +29,8 @@
 		<mapping resource="resource/Account.hbm.xml" />
 		<mapping resource="resource/Contact.hbm.xml" />
 		<mapping resource="resource/Address.hbm.xml" />
+		<mapping resource="resource/AlertLocation.hbm.xml" />
+		<mapping resource="resource/AlertProfile.hbm.xml" />
 
 	</session-factory>
 </hibernate-configuration>

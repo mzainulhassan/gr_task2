@@ -11,6 +11,7 @@ public class SessionUtil {
 	private static SessionFactory sessionFactory = buildSessionFactory();
 
 	private static SessionFactory buildSessionFactory() {
+		System.out.println("Building Session Factory");
 		try {
 			StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
 					.configure("hibernate.cfg.xml").build();
@@ -18,7 +19,7 @@ public class SessionUtil {
 			return metadata.getSessionFactoryBuilder().build();
 
 		} catch (HibernateException he) {
-			System.out.println("Session Factory creation failure" + he);
+			System.out.println("Session Factory creation failure");
 			throw he;
 		}
 	}
