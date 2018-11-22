@@ -1,12 +1,12 @@
 package services;
 
-import java.util.List;
-
+import javax.json.JsonArray;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,51 +15,70 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import dao.AccountDAO;
-import entity.Account;
+import dao.ContactDAO;
+import entity.Address;
+import entity.Contact;
+import utils.SendAlert;
 
 @ApplicationPath("/app")
-@Path("/account")
-public class AccountService extends Application {
+@Path("/contact")
+public class ContactService extends Application {
 
 	@POST
-	@Path("/create_account")
+	@Path("/create_contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response CreateAccountService(Account account) {
+	public Response CreateContactService(Contact contact) {
+
+		if(contact.getAddress() == null || contact.getAccount() == null)
+		{
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+
+		Address address = contact.getAddress();
+		address.setContact(contact);
+
 		try {
-			AccountDAO.createAccount(account);
-			return Response.status(Status.OK).build();
+			int res = ContactDAO.createEmployee(contact);
+			if (res == 0) {
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+			boolean result = SendAlert.Send(res);
+			return Response.status(Status.OK).entity(result).build();
 		} catch (Exception ex) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@GET
-	@Path("/view_all_account")
+	@Path("/view_contact_by_accountID/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response ViewAllAccountService() {
+	public Response ViewAllAccountService(@PathParam("id") int id) {
 		try {
-			List res = AccountDAO.viewAllAccounts();
+			JsonArray res = ContactDAO.viewEmployeesByAccountID(id);
 			return Response.status(Status.OK).entity(res).build();
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 	}
 
-	@POST
-	@Path("/update_account")
+	@PUT
+	@Path("/update_contact")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response UpdateAccountService(Account account) {
+	public Response UpdateContactService(Contact contact) {
 		try {
-			if (account.getId() == 0) {
+			if (contact.getContactID() == 0) {
 				return Response.status(Status.BAD_REQUEST).build();
 			} else {
-				Account res = AccountDAO.updateAccount(account.getId(), account);
-				return Response.status(Status.OK).entity(res).build();
+				int res = ContactDAO.updateEmployee(contact.getContactID(), contact);
+				if (res == 0) {
+					return Response.status(Status.BAD_REQUEST).build();
+				}
+				boolean result = SendAlert.Send(res);
+				return Response.status(Status.OK).entity(result).build();
 			}
 		} catch (Exception ex) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -67,12 +86,12 @@ public class AccountService extends Application {
 	}
 
 	@DELETE
-	@Path("/delete_account/{id}")
+	@Path("/delete_contact/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response DeleteAccountService(@PathParam("id") int id) {
 		try {
-			boolean result = AccountDAO.deleteAccount(id);
+			boolean result = ContactDAO.deleteEmployee(id);
 			if (result) {
 				return Response.status(Status.OK).build();
 			} else {

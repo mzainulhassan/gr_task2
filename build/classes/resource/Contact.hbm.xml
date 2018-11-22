@@ -14,21 +14,22 @@
 			<generator class="native" />
 		</id>
 
-		<property name="firstName" column="firstName" type="string" />
-		<property name="lastName" column="lastName" type="string" />
-		<property name="emailAddress" column="emailAddress"
+		<property name="firstName" column="contact_firstName" type="string" />
+		<property name="lastName" column="contact_lastName" type="string" />
+		<property name="emailAddress" column="contact_emailAddress"
 			type="string" />
-		<property name="gender" column="gender" type="string" />
-		<property name="phoneNumber" column="phoneNumber"
+		<property name="gender" column="contact_gender" type="string" />
+		<property name="phoneNumber" column="contact_phoneNumber"
 			type="string" />
-		<property name="activeStatus" column="activeStatus"
+		<property name="activeStatus" column="contact_activeStatus"
 			type="boolean" />
 
 		<many-to-one name="account" column="accountID"
-			class="entity.Account" not-null="true" cascade="persist" />
-
+			class="entity.Account" not-null="true" cascade="all" />
+			
 		<one-to-one name="address" class="entity.Address"
 			cascade="all"></one-to-one>
+			
 
 	</class>
 </hibernate-mapping>

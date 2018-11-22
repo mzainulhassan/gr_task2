@@ -2,6 +2,11 @@ package dao;
 
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -10,6 +15,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import entity.Account;
+import entity.Address;
 import entity.Contact;
 import utils.SessionUtil;
 
@@ -24,7 +30,12 @@ public class ContactDAO {
 
 		try {
 			tx = session.beginTransaction();
-			result = (Integer) session.save(contact);
+			Account account = (Account) session.get(Account.class, contact.getAccount().getId());
+			if (account != null) {
+				contact.setAccount(account);
+				result = (Integer) session.save(contact);
+			}
+
 			tx.commit();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -35,14 +46,15 @@ public class ContactDAO {
 		return result;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static boolean viewEmployeesByAccountID(int id) {
-		System.out.print("View All Accounts");
+	@SuppressWarnings({ "deprecation", "rawtypes", "null" })
+	public static JsonArray viewEmployeesByAccountID(int id) {
+		System.out.println("View All Accounts");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		boolean result = false;
+		List results = null;
+		JsonArrayBuilder builder = Json.createArrayBuilder();
 
 		try {
 			tx = session.beginTransaction();
@@ -50,27 +62,32 @@ public class ContactDAO {
 			Criteria cr = session.createCriteria(Contact.class);
 			Account account = (Account) session.get(Account.class, id);
 			cr.add(Restrictions.eq("account", account));
-			List results = cr.list();
+			results = cr.list();
+
 			for (int i = 0; i < results.size(); i++) {
 				Contact contact = (Contact) results.get(i);
-				System.out.print("ID: " + contact.getContactID());
-				System.out.print("	 First Name: " + contact.getFirstName());
-				System.out.print("  Last Name: " + contact.getLastName());
-				System.out.print("  Email Address: " + contact.getEmailAddress());
-				System.out.print("  Gender: " + contact.getGender());
-				System.out.print("  Phone Number: " + contact.getPhoneNumber());
-				System.out.print("  Active Status: " + contact.getActiveStatus());
-				System.out.print("  Address: " + contact.getAddress());
-				System.out.println("	Account " + contact.getAccount());
+				Address address = contact.getAddress();
+				Account acc = contact.getAccount();
+				JsonObject temp = Json.createObjectBuilder().add("contactID", contact.getContactID())
+						.add("firstName", contact.getFirstName()).add("lastName", contact.getLastName())
+						.add("emailAddress", contact.getEmailAddress()).add("gender", contact.getGender())
+						.add("phoneNumber", contact.getPhoneNumber()).add("activeStatus", contact.getActiveStatus())
+						.add("accountID", acc.getId())
+						.add("address",
+								Json.createObjectBuilder().add("street", address.getStreet())
+										.add("city", address.getCity()).add("state", address.getState())
+										.add("country", address.getCountry()))
+						.build();
+
+				builder.add(temp);
 			}
 			tx.commit();
-			result = true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		return result;
+		return builder.build();
 	}
 
 	public static boolean addEmployeeAccount(Contact contact) {
@@ -82,9 +99,15 @@ public class ContactDAO {
 		boolean result = false;
 		try {
 			tx = session.beginTransaction();
-			session.update(contact);
+			Account account = (Account) session.get(Account.class, 0);
+			if (account != null) {
+				contact.setAccount(account);
+				session.update(contact);
+				result = true;
+			}
+
 			tx.commit();
-			result = true;
+
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
@@ -94,25 +117,36 @@ public class ContactDAO {
 		return result;
 	}
 
-	public static boolean updateEmployee(Contact contact) {
+	public static Integer updateEmployee(int id, Contact contact) {
 		System.out.print("Update employee");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;
-		boolean result = false;
+		Contact con = null;
 		try {
 			tx = session.beginTransaction();
-			session.update(contact);
+			con = (Contact) session.get(Contact.class, id);
+			con.setFirstName(contact.getFirstName());
+			con.setLastName(contact.getLastName());
+			con.setEmailAddress(contact.getEmailAddress());
+			con.setGender(contact.getGender());
+			con.setPhoneNumber(contact.getPhoneNumber());
+			con.setActiveStatus(contact.getActiveStatus());
+			Address address = session.get(Address.class, id);
+			address.setStreet(contact.getAddress().getStreet());
+			address.setCity(contact.getAddress().getCity());
+			address.setState(contact.getAddress().getState());
+			address.setCountry(contact.getAddress().getCountry());
+			session.update(con);
 			tx.commit();
-			result = true;
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
 
-		return result;
+		return (con != null) ? id : null;
 	}
 
 	public static boolean deleteEmployee(int id) {

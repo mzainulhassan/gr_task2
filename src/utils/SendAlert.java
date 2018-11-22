@@ -24,7 +24,7 @@ public class SendAlert {
 
 			hql = "SELECT AL.country FROM AlertLocation AL, AlertProfile AP WHERE AL.alertProfileID = "
 					+ "(SELECT AP.alertProfileID FROM Account A, AlertProfile AP WHERE AP.accountID = "
-					+ "(SELECT con.account FROM Contact con WHERE con.account = " + id + "))";
+					+ "(SELECT con.account FROM Contact con WHERE con.contactID = " + id + "))";
 			query = session.createQuery(hql);
 			List result_AlertLocation = query.list();
 
@@ -42,7 +42,7 @@ public class SendAlert {
 
 				hql = "SELECT AL.city FROM AlertLocation AL, AlertProfile AP WHERE AL.alertProfileID = "
 						+ "(SELECT AP.alertProfileID FROM Account A, AlertProfile AP WHERE AP.accountID = "
-						+ "(SELECT con.account FROM Contact con WHERE con.account = " + id + "))";
+						+ "(SELECT con.account FROM Contact con WHERE con.contactID = " + id + "))";
 				query = session.createQuery(hql);
 				result_AlertLocation = query.list();
 

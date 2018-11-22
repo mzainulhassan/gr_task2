@@ -31,7 +31,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		if(SendAlert.Send(1)) {System.out.println("Sending Alert");}
+//		if(SendAlert.Send(1)) {System.out.println("Sending Alert");}
 		
 //		System.out.print("Create Alert");
 //
@@ -54,8 +54,8 @@ public class Main {
 //				AlertLocation al = new AlertLocation("islamabad", "pakistan", ap);
 //				session.save(al);
 //			}
-			
-			
+//			
+//			
 //			for (int j = 0; j < result2.size(); j++) {
 //				Object[] obj = (Object[]) result2.get(j);
 //				Object[] obj2 = (Object[]) result1.get(0);
@@ -72,9 +72,7 @@ public class Main {
 //			Contact contact = new Contact("zain", "hassan", "zain@gmail.com", "male", "3229255755", true, address, account);
 //			address.setContact(contact);
 //			session.save(contact);
-
-//			session.save(al);
-			
+//			
 //			tx.commit();
 //		} catch (HibernateException e) {
 //			e.printStackTrace();

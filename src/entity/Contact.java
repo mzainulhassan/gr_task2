@@ -15,14 +15,13 @@ public class Contact {
 	}
 
 	public Contact(String firstName, String lastName, String emailAddress, String gender, String phoneNumber,
-			boolean activeStatus, Address address, Account account) {
+			boolean activeStatus, Account account) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.emailAddress = emailAddress;
 		this.gender = gender;
 		this.phoneNumber = phoneNumber;
 		this.activeStatus = activeStatus;
-		this.address = address;
 		this.account = account;
 	}
 
