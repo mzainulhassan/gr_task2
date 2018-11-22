@@ -30,8 +30,7 @@ public class ContactService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response CreateContactService(Contact contact) {
 
-		if(contact.getAddress() == null || contact.getAccount() == null)
-		{
+		if (contact.getAddress() == null || contact.getAccount() == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 

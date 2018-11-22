@@ -25,7 +25,7 @@ import entity.AlertProfile;
 import utils.SessionUtil;
 
 @ApplicationPath("/app")
-@Path("/contact")
+@Path("/alert")
 public class AlertService extends Application {
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	@POST
@@ -51,7 +51,7 @@ public class AlertService extends Application {
 				cr.add(Restrictions.eq("city", al.getCity()));
 				cr.add(Restrictions.eq("country", al.getCountry()));
 				List res = cr.list();
-				
+
 				System.out.println(res.size());
 				if (res.size() == 0) {
 					al.setAlertProfileID(ap);
@@ -68,7 +68,7 @@ public class AlertService extends Application {
 
 		return result == null ? Response.status(Status.BAD_REQUEST).build() : Response.status(Status.OK).build();
 	}
-	
+
 	@POST
 	@Path("/create_alertProfile")
 	@Consumes(MediaType.APPLICATION_JSON)

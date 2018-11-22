@@ -38,7 +38,7 @@ public class AccountDAO {
 		return result;
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public static List viewAllAccounts() {
 		System.out.print("View All Accounts");
 
