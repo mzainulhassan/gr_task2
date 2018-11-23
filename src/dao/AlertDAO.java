@@ -1,4 +1,4 @@
-package utils;
+package dao;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -6,9 +6,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-public class SendAlert {
+import utils.SessionUtil;
+
+public class AlertDAO {
 	@SuppressWarnings({ "rawtypes" })
-	public static boolean Send(int id) {
+	public static boolean send(int id) {
 		SessionFactory factory = SessionUtil.getSessionFactory();
 		Session session = factory.openSession();
 		Transaction tx = null;

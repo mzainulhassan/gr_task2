@@ -29,7 +29,7 @@ import utils.SessionUtil;
 public class AlertService extends Application {
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	@POST
-	@Path("/create_alertLocation")
+	@Path("/create_location")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAlertLocation(AlertLocation al) {
@@ -70,7 +70,7 @@ public class AlertService extends Application {
 	}
 
 	@POST
-	@Path("/create_alertProfile")
+	@Path("/create_profile")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAlertProfile(AlertProfile ap) {

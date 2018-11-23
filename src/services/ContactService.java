@@ -15,17 +15,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import dao.AlertDAO;
 import dao.ContactDAO;
 import entity.Address;
 import entity.Contact;
-import utils.SendAlert;
 
 @ApplicationPath("/app")
 @Path("/contact")
 public class ContactService extends Application {
 
 	@POST
-	@Path("/create_contact")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response CreateContactService(Contact contact) {
@@ -42,7 +42,7 @@ public class ContactService extends Application {
 			if (res == 0) {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
-			boolean result = SendAlert.Send(res);
+			boolean result = AlertDAO.send(res);
 			return Response.status(Status.OK).entity(result).build();
 		} catch (Exception ex) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -50,7 +50,7 @@ public class ContactService extends Application {
 	}
 
 	@GET
-	@Path("/view_contact_by_accountID/{id}")
+	@Path("/view_by_accountID/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ViewAllAccountService(@PathParam("id") int id) {
@@ -64,7 +64,7 @@ public class ContactService extends Application {
 	}
 
 	@PUT
-	@Path("/update_contact")
+	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response UpdateContactService(Contact contact) {
@@ -76,7 +76,7 @@ public class ContactService extends Application {
 				if (res == 0) {
 					return Response.status(Status.BAD_REQUEST).build();
 				}
-				boolean result = SendAlert.Send(res);
+				boolean result = AlertDAO.send(res);
 				return Response.status(Status.OK).entity(result).build();
 			}
 		} catch (Exception ex) {
@@ -85,7 +85,7 @@ public class ContactService extends Application {
 	}
 
 	@DELETE
-	@Path("/delete_contact/{id}")
+	@Path("/delete/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response DeleteAccountService(@PathParam("id") int id) {

@@ -1,30 +1,5 @@
 package gr_task2;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.io.Console;
-import java.util.Iterator;
-import java.util.List;
-
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
-
-import dao.AccountDAO;
-import dao.ContactDAO;
-import entity.Account;
-import entity.Address;
-import entity.AlertLocation;
-import entity.AlertProfile;
-import entity.Contact;
-import utils.SendAlert;
-import utils.SessionUtil;
-
 public class Main {
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })

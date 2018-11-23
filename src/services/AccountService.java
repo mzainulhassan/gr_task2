@@ -23,7 +23,7 @@ import entity.Account;
 public class AccountService extends Application {
 
 	@POST
-	@Path("/create_account")
+	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response CreateAccountService(Account account) {
@@ -37,7 +37,7 @@ public class AccountService extends Application {
 
 	@SuppressWarnings("rawtypes")
 	@GET
-	@Path("/view_all_account")
+	@Path("/view_all")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ViewAllAccountService() {
@@ -50,7 +50,7 @@ public class AccountService extends Application {
 	}
 
 	@POST
-	@Path("/update_account")
+	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response UpdateAccountService(Account account) {
@@ -67,7 +67,7 @@ public class AccountService extends Application {
 	}
 
 	@DELETE
-	@Path("/delete_account/{id}")
+	@Path("/delete/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response DeleteAccountService(@PathParam("id") int id) {
