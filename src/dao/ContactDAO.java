@@ -20,7 +20,7 @@ import entity.Contact;
 import utils.SessionUtil;
 
 public class ContactDAO {
-	public static Integer createEmployee(Contact contact) {
+	public Integer createEmployee(Contact contact) {
 		System.out.print("Create Employee");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -47,7 +47,7 @@ public class ContactDAO {
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
-	public static JsonArray viewEmployeesByAccountID(int id) {
+	public JsonArray viewEmployeesByAccountID(int id) {
 		System.out.println("View All Accounts");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -89,7 +89,7 @@ public class ContactDAO {
 		return builder.build();
 	}
 
-	public static boolean addEmployeeAccount(Contact contact) {
+	public boolean addEmployeeAccount(Contact contact) {
 		System.out.print("Add employee account");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -116,7 +116,7 @@ public class ContactDAO {
 		return result;
 	}
 
-	public static Integer updateEmployee(int id, Contact contact) {
+	public Integer updateEmployee(int id, Contact contact) {
 		System.out.print("Update employee");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -148,7 +148,7 @@ public class ContactDAO {
 		return (con != null) ? id : null;
 	}
 
-	public static boolean deleteEmployee(int id) {
+	public boolean deleteEmployee(int id) {
 		System.out.print("Delete Employee");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();

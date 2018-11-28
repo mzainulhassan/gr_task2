@@ -21,7 +21,7 @@ import utils.SessionUtil;
 public class AccountDAO {
 
 	@SuppressWarnings({ "deprecation" })
-	public static Account loginAccount(String json) {
+	public Account loginAccount(String json) {
 		System.out.println("Login Account");
 
 		JsonReader reader = Json.createReader(new StringReader(json));
@@ -61,7 +61,7 @@ public class AccountDAO {
 		return acc;
 	}
 
-	public static Integer createAccount(Account account) {
+	public Integer createAccount(Account account) {
 		System.out.println("Create Account");
 
 		SessionFactory factory = null;
@@ -88,7 +88,7 @@ public class AccountDAO {
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
-	public static List viewAllAccounts() {
+	public List viewAllAccounts() {
 		System.out.print("View All Accounts");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -118,7 +118,7 @@ public class AccountDAO {
 		return results;
 	}
 
-	public static Account updateAccount(int id, Account account) {
+	public Account updateAccount(int id, Account account) {
 		System.out.print("Update Account");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();
@@ -150,7 +150,7 @@ public class AccountDAO {
 
 	}
 
-	public static boolean deleteAccount(int id) {
+	public boolean deleteAccount(int id) {
 		System.out.print("Delete Account");
 
 		SessionFactory factory = SessionUtil.getSessionFactory();

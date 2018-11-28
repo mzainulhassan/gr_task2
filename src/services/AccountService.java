@@ -22,13 +22,15 @@ import entity.Account;
 @Path("/account")
 public class AccountService extends Application {
 
+	AccountDAO accountDAO = new AccountDAO();
+	
 	@POST
 	@Path("/login")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response LoginService(String json) {
 		try {
-			Account acc = AccountDAO.loginAccount(json);
+			Account acc = accountDAO.loginAccount(json);
 			if(acc == null)
 			{
 				return Response.status(Status.BAD_REQUEST).build();
@@ -45,7 +47,7 @@ public class AccountService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response CreateAccountService(Account account) {
 		try {
-			AccountDAO.createAccount(account);
+			accountDAO.createAccount(account);
 			return Response.status(Status.OK).build();
 		} catch (Exception ex) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -59,7 +61,7 @@ public class AccountService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ViewAllAccountService() {
 		try {
-			List res = AccountDAO.viewAllAccounts();
+			List res = accountDAO.viewAllAccounts();
 			return Response.status(Status.OK).entity(res).build();
 		} catch (Exception ex) {
 			return Response.status(Status.BAD_REQUEST).build();
@@ -75,7 +77,7 @@ public class AccountService extends Application {
 			if (account.getId() == 0) {
 				return Response.status(Status.BAD_REQUEST).build();
 			} else {
-				Account res = AccountDAO.updateAccount(account.getId(), account);
+				Account res = accountDAO.updateAccount(account.getId(), account);
 				return Response.status(Status.OK).entity(res).build();
 			}
 		} catch (Exception ex) {
@@ -89,7 +91,7 @@ public class AccountService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response DeleteAccountService(@PathParam("id") int id) {
 		try {
-			boolean result = AccountDAO.deleteAccount(id);
+			boolean result = accountDAO.deleteAccount(id);
 			if (result) {
 				return Response.status(Status.OK).build();
 			} else {

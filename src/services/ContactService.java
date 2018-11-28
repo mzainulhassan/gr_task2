@@ -24,6 +24,8 @@ import entity.Contact;
 @Path("/contact")
 public class ContactService extends Application {
 
+	ContactDAO contactDAO = new ContactDAO();
+	
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -38,7 +40,7 @@ public class ContactService extends Application {
 		address.setContact(contact);
 
 		try {
-			int res = ContactDAO.createEmployee(contact);
+			int res = contactDAO.createEmployee(contact);
 			if (res == 0) {
 				return Response.status(Status.BAD_REQUEST).build();
 			}
@@ -55,7 +57,7 @@ public class ContactService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response ViewAllAccountService(@PathParam("id") int id) {
 		try {
-			JsonArray res = ContactDAO.viewEmployeesByAccountID(id);
+			JsonArray res = contactDAO.viewEmployeesByAccountID(id);
 			return Response.status(Status.OK).entity(res).build();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -72,7 +74,7 @@ public class ContactService extends Application {
 			if (contact.getContactID() == 0) {
 				return Response.status(Status.BAD_REQUEST).build();
 			} else {
-				int res = ContactDAO.updateEmployee(contact.getContactID(), contact);
+				int res = contactDAO.updateEmployee(contact.getContactID(), contact);
 				if (res == 0) {
 					return Response.status(Status.BAD_REQUEST).build();
 				}
@@ -90,7 +92,7 @@ public class ContactService extends Application {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response DeleteAccountService(@PathParam("id") int id) {
 		try {
-			boolean result = ContactDAO.deleteEmployee(id);
+			boolean result = contactDAO.deleteEmployee(id);
 			if (result) {
 				return Response.status(Status.OK).build();
 			} else {
