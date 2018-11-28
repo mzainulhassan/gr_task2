@@ -23,6 +23,23 @@ import entity.Account;
 public class AccountService extends Application {
 
 	@POST
+	@Path("/login")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response LoginService(String json) {
+		try {
+			Account acc = AccountDAO.loginAccount(json);
+			if(acc == null)
+			{
+				return Response.status(Status.BAD_REQUEST).build();
+			}
+			return Response.status(Status.OK).entity(acc).build();
+		} catch (Exception ex) {
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+	}
+
+	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

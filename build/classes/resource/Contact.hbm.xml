@@ -25,7 +25,7 @@
 			type="boolean" />
 
 		<many-to-one name="account" column="accountID"
-			class="entity.Account" not-null="true" cascade="all" />
+			class="entity.Account" not-null="true" />
 			
 		<one-to-one name="address" class="entity.Address"
 			cascade="all"></one-to-one>

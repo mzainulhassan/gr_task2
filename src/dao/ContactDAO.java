@@ -46,7 +46,7 @@ public class ContactDAO {
 		return result;
 	}
 
-	@SuppressWarnings({ "deprecation", "rawtypes", "null" })
+	@SuppressWarnings({ "deprecation", "rawtypes" })
 	public static JsonArray viewEmployeesByAccountID(int id) {
 		System.out.println("View All Accounts");
 
@@ -67,17 +67,16 @@ public class ContactDAO {
 			for (int i = 0; i < results.size(); i++) {
 				Contact contact = (Contact) results.get(i);
 				Address address = contact.getAddress();
-				Account acc = contact.getAccount();
 				JsonObject temp = Json.createObjectBuilder().add("contactID", contact.getContactID())
-						.add("firstName", contact.getFirstName()).add("lastName", contact.getLastName())
+						.add("fullName", contact.getFirstName() + " " + contact.getLastName())
 						.add("emailAddress", contact.getEmailAddress()).add("gender", contact.getGender())
 						.add("phoneNumber", contact.getPhoneNumber()).add("activeStatus", contact.getActiveStatus())
-						.add("accountID", acc.getId())
 						.add("address",
-								Json.createObjectBuilder().add("street", address.getStreet())
-										.add("city", address.getCity()).add("state", address.getState())
-										.add("country", address.getCountry()))
-						.build();
+								address.getStreet() + " " + address.getCity() + " " + address.getState() + " "
+										+ address.getCountry())
+						.add("firstName", contact.getFirstName()).add("lastName", contact.getLastName())
+						.add("street", address.getStreet()).add("city", address.getCity())
+						.add("state", address.getState()).add("country", address.getCountry()).build();
 
 				builder.add(temp);
 			}

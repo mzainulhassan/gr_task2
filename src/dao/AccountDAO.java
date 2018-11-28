@@ -1,17 +1,66 @@
 package dao;
 
+import java.io.StringReader;
 import java.util.List;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonStructure;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import entity.Account;
 import utils.SessionUtil;
 
 public class AccountDAO {
+
+	@SuppressWarnings({ "deprecation" })
+	public static Account loginAccount(String json) {
+		System.out.println("Login Account");
+
+		JsonReader reader = Json.createReader(new StringReader(json));
+		JsonStructure jsonst = reader.read();
+		JsonObject jsonObject = (JsonObject) jsonst;
+
+		SessionFactory factory = null;
+		Session session = null;
+		Account acc = null;
+		
+		try {
+			factory = SessionUtil.getSessionFactory();
+			session = factory.openSession();
+			Transaction tx = null;
+
+			Criteria cr = session.createCriteria(Account.class);
+			cr.add(Restrictions.eq("email", jsonObject.getString("email") ));
+			cr.add(Restrictions.eq("password", jsonObject.getString("password")));
+			Account account = (Account) cr.uniqueResult();
+			
+			acc = new Account();
+			acc.setId(account.getId());
+			acc.setEmail(account.getEmail());
+			acc.setName(account.getName());
+			acc.setTimezone(account.getTimezone());
+
+			tx = session.beginTransaction();
+
+			tx.commit();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return acc;
+	}
+
 	public static Integer createAccount(Account account) {
 		System.out.println("Create Account");
 

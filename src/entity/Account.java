@@ -5,14 +5,16 @@ public class Account {
 	private String name;
 	private String email;
 	private String timezone;
+	private String password;
 
 	public Account() {
 	}
 
-	public Account(String name, String email, String timezone) {
+	public Account(String name, String email, String timezone, String password) {
 		this.name = name;
 		this.email = email;
 		this.timezone = timezone;
+		this.password = password;
 	}
 
 	public int getId() {
@@ -45,5 +47,13 @@ public class Account {
 
 	public void setTimezone(String timezone) {
 		this.timezone = timezone;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

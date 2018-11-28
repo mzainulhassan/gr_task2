@@ -15,6 +15,7 @@
 
 		<property name="name" column="account_name" type="string" />
 		<property name="email" column="account_email" type="string" />
+		<property name="password" column="account_password" type="string" />
 		<property name="timezone" column="account_timezone"
 			type="string" />
 
